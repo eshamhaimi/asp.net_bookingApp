@@ -1,0 +1,238 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Namespace="Model1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005">
+        <EntityContainer Name="Model1TargetContainer" >
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="Model1Container" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Users" EntityType="Model1.User" />
+          <EntitySet Name="Regions" EntityType="Model1.Region" />
+          <EntitySet Name="Countries" EntityType="Model1.Country" />
+          <EntitySet Name="Places" EntityType="Model1.Place" />
+          <EntitySet Name="Rooms" EntityType="Model1.Room" />
+          <EntitySet Name="Accommodations" EntityType="Model1.Accommodation" />
+          <EntitySet Name="AccommodationTypes" EntityType="Model1.AccommodationType" />
+          <AssociationSet Name="UserAccommodation" Association="Model1.UserAccommodation">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Accommodation" EntitySet="Accommodations" />
+          </AssociationSet>
+          <AssociationSet Name="AccommodationRoom" Association="Model1.AccommodationRoom">
+            <End Role="Accommodation" EntitySet="Accommodations" />
+            <End Role="Room" EntitySet="Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="AccommodationTypeAccommodation" Association="Model1.AccommodationTypeAccommodation">
+            <End Role="AccommodationType" EntitySet="AccommodationTypes" />
+            <End Role="Accommodation" EntitySet="Accommodations" />
+          </AssociationSet>
+          <AssociationSet Name="PlaceAccommodation" Association="Model1.PlaceAccommodation">
+            <End Role="Place" EntitySet="Places" />
+            <End Role="Accommodation" EntitySet="Accommodations" />
+          </AssociationSet>
+          <AssociationSet Name="RegionPlace" Association="Model1.RegionPlace">
+            <End Role="Region" EntitySet="Regions" />
+            <End Role="Place" EntitySet="Places" />
+          </AssociationSet>
+          <AssociationSet Name="CountryRegion" Association="Model1.CountryRegion">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="Region" EntitySet="Regions" />
+          </AssociationSet>
+          <EntitySet Name="RoomReservations" EntityType="Model1.RoomReservations" />
+          <EntitySet Name="Comments" EntityType="Model1.Comment" />
+          <AssociationSet Name="UserRoomReservations" Association="Model1.UserRoomReservations">
+            <End Role="User" EntitySet="Users" />
+            <End Role="RoomReservations" EntitySet="RoomReservations" />
+          </AssociationSet>
+          <AssociationSet Name="RoomRoomReservations" Association="Model1.RoomRoomReservations">
+            <End Role="Room" EntitySet="Rooms" />
+            <End Role="RoomReservations" EntitySet="RoomReservations" />
+          </AssociationSet>
+          <AssociationSet Name="AccommodationComment" Association="Model1.AccommodationComment">
+            <End Role="Accommodation" EntitySet="Accommodations" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="UserComment" Association="Model1.UserComment">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" Nullable="false" />
+          <Property Name="Password" Type="String" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" />
+          <NavigationProperty Name="Accommodations" Relationship="Model1.UserAccommodation" FromRole="User" ToRole="Accommodation" />
+          <NavigationProperty Name="RoomReservations" Relationship="Model1.UserRoomReservations" FromRole="User" ToRole="RoomReservations" />
+          <NavigationProperty Name="Comments" Relationship="Model1.UserComment" FromRole="User" ToRole="Comment" />
+        </EntityType>
+        <EntityType Name="Region">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="Places" Relationship="Model1.RegionPlace" FromRole="Region" ToRole="Place" />
+          <NavigationProperty Name="Country" Relationship="Model1.CountryRegion" FromRole="Region" ToRole="Country" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Code" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Regions" Relationship="Model1.CountryRegion" FromRole="Country" ToRole="Region" />
+        </EntityType>
+        <EntityType Name="Place">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="Accommodations" Relationship="Model1.PlaceAccommodation" FromRole="Place" ToRole="Accommodation" />
+          <NavigationProperty Name="Region" Relationship="Model1.RegionPlace" FromRole="Place" ToRole="Region" />
+        </EntityType>
+        <EntityType Name="Room">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoomNumber" Type="Int32" Nullable="false" />
+          <Property Name="BedCount" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" />
+          <Property Name="PricePerNight" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Accommodation" Relationship="Model1.AccommodationRoom" FromRole="Room" ToRole="Accommodation" />
+          <NavigationProperty Name="RoomReservations" Relationship="Model1.RoomRoomReservations" FromRole="Room" ToRole="RoomReservations" />
+        </EntityType>
+        <EntityType Name="Accommodation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" />
+          <Property Name="Address" Type="String" Nullable="false" />
+          <Property Name="AverageGrade" Type="Double" Nullable="false" />
+          <Property Name="Latitude" Type="String" Nullable="false" />
+          <Property Name="Longitude" Type="String" Nullable="false" />
+          <Property Name="ImageURL" Type="String" Nullable="false" />
+          <Property Name="Approved" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Model1.UserAccommodation" FromRole="Accommodation" ToRole="User" />
+          <NavigationProperty Name="Rooms" Relationship="Model1.AccommodationRoom" FromRole="Accommodation" ToRole="Room" />
+          <NavigationProperty Name="AccommodationType" Relationship="Model1.AccommodationTypeAccommodation" FromRole="Accommodation" ToRole="AccommodationType" />
+          <NavigationProperty Name="Place" Relationship="Model1.PlaceAccommodation" FromRole="Accommodation" ToRole="Place" />
+          <NavigationProperty Name="Comments" Relationship="Model1.AccommodationComment" FromRole="Accommodation" ToRole="Comment" />
+        </EntityType>
+        <EntityType Name="AccommodationType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="Accommodations" Relationship="Model1.AccommodationTypeAccommodation" FromRole="AccommodationType" ToRole="Accommodation" />
+        </EntityType>
+        <Association Name="UserAccommodation">
+          <End Type="Model1.User" Role="User" Multiplicity="1" />
+          <End Type="Model1.Accommodation" Role="Accommodation" Multiplicity="*" />
+        </Association>
+        <Association Name="AccommodationRoom">
+          <End Type="Model1.Accommodation" Role="Accommodation" Multiplicity="1" />
+          <End Type="Model1.Room" Role="Room" Multiplicity="*" />
+        </Association>
+        <Association Name="AccommodationTypeAccommodation">
+          <End Type="Model1.AccommodationType" Role="AccommodationType" Multiplicity="1" />
+          <End Type="Model1.Accommodation" Role="Accommodation" Multiplicity="*" />
+        </Association>
+        <Association Name="PlaceAccommodation">
+          <End Type="Model1.Place" Role="Place" Multiplicity="1" />
+          <End Type="Model1.Accommodation" Role="Accommodation" Multiplicity="*" />
+        </Association>
+        <Association Name="RegionPlace">
+          <End Type="Model1.Region" Role="Region" Multiplicity="1" />
+          <End Type="Model1.Place" Role="Place" Multiplicity="*" />
+        </Association>
+        <Association Name="CountryRegion">
+          <End Type="Model1.Country" Role="Country" Multiplicity="1" />
+          <End Type="Model1.Region" Role="Region" Multiplicity="*" />
+        </Association>
+        <EntityType Name="RoomReservations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" />
+          <Property Name="Timestamp" Type="Time" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Model1.UserRoomReservations" FromRole="RoomReservations" ToRole="User" />
+          <NavigationProperty Name="Room" Relationship="Model1.RoomRoomReservations" FromRole="RoomReservations" ToRole="Room" />
+        </EntityType>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Grade" Type="Int32" Nullable="false" />
+          <Property Name="Text" Type="String" Nullable="false" />
+          <NavigationProperty Name="Accommodation" Relationship="Model1.AccommodationComment" FromRole="Comment" ToRole="Accommodation" />
+          <NavigationProperty Name="User" Relationship="Model1.UserComment" FromRole="Comment" ToRole="User" />
+        </EntityType>
+        <Association Name="UserRoomReservations">
+          <End Type="Model1.User" Role="User" Multiplicity="1" />
+          <End Type="Model1.RoomReservations" Role="RoomReservations" Multiplicity="*" />
+        </Association>
+        <Association Name="RoomRoomReservations">
+          <End Type="Model1.Room" Role="Room" Multiplicity="1" />
+          <End Type="Model1.RoomReservations" Role="RoomReservations" Multiplicity="*" />
+        </Association>
+        <Association Name="AccommodationComment">
+          <End Type="Model1.Accommodation" Role="Accommodation" Multiplicity="1" />
+          <End Type="Model1.Comment" Role="Comment" Multiplicity="*" />
+        </Association>
+        <Association Name="UserComment">
+          <End Type="Model1.User" Role="User" Multiplicity="1" />
+          <End Type="Model1.Comment" Role="Comment" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Srbija" BaseType="Model1.Country">
+          <Property Name="Zastava" Type="String" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
+        <Alias Key="Model" Value="Model1" />
+        <Alias Key="Target" Value="Model1.Store" />
+        <EntityContainerMapping CdmEntityContainer="Model1Container" StorageEntityContainer="Model1TargetContainer">
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
