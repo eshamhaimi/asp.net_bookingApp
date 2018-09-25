@@ -17,12 +17,14 @@ namespace BookingApp
         public static void Register(HttpConfiguration config)
         {
             ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
-            builder.EntitySet<Accommodation>("Accommodations1");
+            builder.EntitySet<Accommodation>("Accommodations");
+            builder.EntitySet<Accommodation>("AccommodationsOData");
             builder.EntitySet<AccommodationType>("AccommodationTypes");
             builder.EntitySet<AppUser>("AppUsers");
             builder.EntitySet<Comment>("Comments");
             builder.EntitySet<Place>("Places");
             builder.EntitySet<Room>("Rooms");
+            builder.EntitySet<Room>("RoomOData");
             builder.EntitySet<Region>("Regions");
             builder.EntitySet<Country>("Countries");
             builder.EntitySet<RoomReservations>("RoomReservations");
